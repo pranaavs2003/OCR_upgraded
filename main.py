@@ -8,7 +8,6 @@ from detector import detector
 import cv2
 import typing
 import numpy as np
-import os
 
 from mltu.inferenceModel import OnnxInferenceModel
 from mltu.utils.text_utils import ctc_decoder, get_cer

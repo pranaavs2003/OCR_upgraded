@@ -2,9 +2,14 @@ import cv2
 import typing
 import numpy as np
 import os
+from detector import detector
+from pydantic import BaseModel
 
 from mltu.inferenceModel import OnnxInferenceModel
 from mltu.utils.text_utils import ctc_decoder, get_cer
+
+class ImageDetail(BaseModel):
+    image_url: str
 
 class ImageToWordModel(OnnxInferenceModel):
     def __init__(self, char_list: typing.Union[str, list], *args, **kwargs):
@@ -36,17 +41,21 @@ if __name__ == "__main__":
 
     try:
         folder_path = './mydata'
+        image_url = input('Enter Image URL: ')
+        # image_url = "https://res.cloudinary.com/dbzzj25vc/image/upload/v1691164661/checkd/cheques/d2seilqujdawwkjn4sga.jpg"
+        image_details = ImageDetail(image_url= image_url)
+        
         for entry in os.listdir(folder_path):
             full_path = os.path.join(folder_path, entry)
 
             if os.path.isfile(full_path):
-                print(entry)
-                
                 img_num = 'mydata/' + entry
-                print(img_num)
                 image = cv2.imread(img_num)
                 prediction_text = model.predict(image)
-                print('🆓', prediction_text)
+        
+        
+        ocrData = detector(image_details)
+        print(ocrData)
                 
             
     except FileNotFoundError:
