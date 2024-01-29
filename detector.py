@@ -31,10 +31,10 @@ def detector(transactionDetails: ImageDetail):
         for analyzed_result in read_results:
             for line in analyzed_result.lines:
                 lst_1.append(line.text)
-                print('🆙',line.text)
+                #print('🆙',line.text)
         
     lst_1 = [item for item in lst_1 if all(char.isascii() for char in item)]
-    print(lst_1)
+    #print(lst_1)
     return lst_1
        
     
